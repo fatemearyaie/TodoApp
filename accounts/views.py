@@ -3,22 +3,10 @@ from django.contrib.auth.views import LoginView
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.http import HttpResponse
 
 # Create your views here.
-class LoginView(LoginView):
-    template_name = 'registeration/login.html'
-    fields = "username", "password"
-    redirect_authenticated_user = True
-
-    def get_success_url(self):
-        return reverse_lazy('task_list')
-
-def task_list(request):
-    return HttpResponse('hiiiiiii')
-
-
 class RegisterView(FormView):
     """
     it shows which template this view is related, which form class is related and what should we do after the success
@@ -39,6 +27,3 @@ class RegisterView(FormView):
         if self.request.user.is_authenticated:
             return redirect('login')
         return super(RegisterView, self).get(*args, **kwargs)
-
-
-
