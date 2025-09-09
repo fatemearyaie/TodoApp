@@ -7,10 +7,10 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
 # Create your views here.
-class Task_list(ListView):
+class TaskList(ListView):
     model = Task
     context_object_name = 'tasks'
-    template_name = 'task_list.html'
+    template_name = 'task_form.html'
 
     def get_queryset(self):
         return self.model.objects.filter(user=self.request.user)
@@ -18,7 +18,9 @@ class Task_list(ListView):
 class CreateTask(CreateView):
     model = Task
     fields = ['task_name']
-    success_url = 'task_list'
+    success_url = reverse_lazy('tasklist')
+    template_name = 'task_form.html'
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -26,7 +28,7 @@ class CreateTask(CreateView):
 class UpdateTask(UpdateView):
     model = Task
     form_class = TaskUpdateForm
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('tasklist')
     template_name = 'todo/update_task.html'
 
 class DeleteTask(DeleteView):
@@ -41,7 +43,7 @@ class DeleteTask(DeleteView):
     
 class TaskComplete(LoginRequiredMixin, View):
     model = Task
-    success_url = reverse_lazy("task_list")
+    success_url = reverse_lazy('tasklist')
 
     def get(self, request, *args, **kwargs):
         object = Task.objects.get(id=kwargs.get("pk"))
