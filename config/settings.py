@@ -29,7 +29,6 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -39,11 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # local
     'todos',
-    #3rd party
-    'rest_framework'
+    # 3rd party
+    'rest_framework',
+    'corsheaders',
 ]
-REST_FRAMEWORK={
-    'DEFAULT_PERMISSION_CLASSES':[
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
     ]
 }
@@ -51,12 +52,15 @@ REST_FRAMEWORK={
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # 👈 باید اینجا باشه
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'config.urls'
 
